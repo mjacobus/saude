@@ -18,11 +18,16 @@ class ApiData
   private
 
   def dump_json(data, path:)
-    path = Rails.root.join(path)
+    path = Rails.root.join("data/api").join(path)
     folder = File.basename(path)
     log("Creating file: #{path}")
     FileUtils.mkdir_p(folder)
     File.open(path, 'w') { |f| f.puts(data.to_json) }
+  end
+
+  def read_json(path)
+    file = Rails.root.join("data/api").join(path)
+    JSON.parse(File.read(file))
   end
 
   def log(message)
@@ -32,12 +37,34 @@ end
 
 class Estados < ApiData
   def save
-    dump_json(api.estados, path: "data/api/estados.json")
+    dump_json(api.estados, path: "estados.json")
+  end
+end
+
+class Cidades < ApiData
+  def save
+    estados = read_json("estados.json")
+    estados.each do |id, estado|
+      save_cidades(id)
+    end
+  end
+
+  private
+
+  def save_cidades(id)
+    cidades = api.cidades(id)
+    dump_json(cidades, path: "cidade-#{id}.json")
   end
 end
 
 namespace :estados do
   task save: :environment do
     Estados.new.save
+  end
+end
+
+namespace :cidades do
+  task save: :environment do
+    Cidades.new.save
   end
 end
