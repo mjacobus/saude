@@ -1,0 +1,2 @@
+class Estabelecimento < Entity
+end

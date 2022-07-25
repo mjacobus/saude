@@ -9,12 +9,8 @@ class JsonRepository
     @data
   end
 
-  def find(&block)
-    all.find(&block)
-  end
-
   def find(id)
-    find { |e| e[:id] == id }
+    all.find { |e| e.id == Integer(id) }
   end
 
   private

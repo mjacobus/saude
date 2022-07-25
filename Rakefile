@@ -24,3 +24,9 @@ namespace :estabelecimentos do
     EstabelecimentosImporter.new.import
   end
 end
+
+namespace :profissionais do
+  task import: :environment do
+    ProfissionaisImporter.new.import(estado_id: 43)
+  end
+end

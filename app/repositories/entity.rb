@@ -3,6 +3,10 @@ class Entity
     @data = data
   end
 
+  def id
+    self[:id].to_i
+  end
+
   def to_h
     @data
   end
