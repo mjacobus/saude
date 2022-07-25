@@ -7,7 +7,7 @@ require "awesome_print"
 
 Rails.application.load_tasks
 
-class ApiData
+class ApiImporter
   attr_reader :api
 
   def initialize(api: Cnes::HttpClientFactory.new.create, logger: Logger.new("log/api_data.log"))
@@ -35,17 +35,16 @@ class ApiData
   end
 end
 
-class Estados < ApiData
-  def save
+class EstadosImporter < ApiImporter
+  def import
     dump_json(api.estados, path: "estados.json")
   end
 end
 
-class Cidades < ApiData
-  def save
-    estados = read_json("estados.json")
-    estados.each do |id, estado|
-      save_cidades(id)
+class CidadesImporter < ApiImporter
+  def import
+    Estados.new.all.each do |estado|
+      save_cidades(estado[:id])
     end
   end
 
@@ -53,18 +52,45 @@ class Cidades < ApiData
 
   def save_cidades(id)
     cidades = api.cidades(id)
-    dump_json(cidades, path: "cidade-#{id}.json")
+    dump_json(cidades, path: "cidades-#{id}.json")
+  end
+end
+
+class EstabelecimentosImporter < ApiImporter
+  def import
+    Estados.new.all.each do |estado|
+      import_estado(estado)
+    end
+  end
+
+  private
+
+  def import_estado(id)
+    Cidades.new(estado_id: id).all.each do |cidade|
+      import_cidade(cidade[:id])
+    end
+  end
+
+  def import_cidade(id)
+    estabelecimentos = api.estabelecimentos(id)
+    dump_json(estabelecimentos, "estabelecimentos-#{id}.json")
   end
 end
 
 namespace :estados do
-  task save: :environment do
-    Estados.new.save
+  task import: :environment do
+    Estados.new.import
   end
 end
 
 namespace :cidades do
-  task save: :environment do
-    Cidades.new.save
+  task import: :environment do
+    CidadesImporter.new.import
+  end
+end
+
+namespace :estabelecimentos do
+  task import: :environment do
+    EstabelecimentosImporter.new.import
   end
 end
