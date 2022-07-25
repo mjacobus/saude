@@ -23,9 +23,12 @@ table td, table th {
   padding: 4px;
   margin: 0;
 }
+
+td.details, th.details {
+  width: 30%;
+}
 </style>
 <h1>Profissionais</h1>
-
 
 <div class="div">
   <form action="">
@@ -56,8 +59,6 @@ table td, table th {
 <% unless @profissionais.nil? %>
   <p class="summary"><strong> <%= @profissionais.length %> profissionais encontrados.</strong></p>
 
-
-
   <table>
     <thead>
       <tr>
@@ -75,11 +76,11 @@ table td, table th {
           <td><%= profissional['nome'] %></td>
           <td><%= profissional['tpSusNaoSus'] == 'S' ? "Sim" : "Não" %></td>
           <td><%= profissional['dsCbo'] %></td>
-          <td><%= profissional['cns'] %> <%= "(#{profissional['cnsMaster']})" if profissional["cnsMaster"].present? %></td>
-          <td>
+          <td><%= profissional['cns'] %></td>
+          <td class="details">
             <details>
               <summary>Mais</summary>
-              <% profissional.slice( 'cbo', 'chOutros', 'chAmb', 'chHosp', 'vinculacao', 'vinculo', 'subVinculo', 'artigo2', 'artigo3', 'artigo5', 'dtEntrada').compact_blank.each do |key, value| %>
+              <% profissional.slice('cbo',  'cnsMaster', 'chOutros', 'chAmb', 'chHosp', 'vinculacao', 'vinculo', 'subVinculo', 'artigo2', 'artigo3', 'artigo5', 'dtEntrada').compact_blank.each do |key, value| %>
                 <div> <%= key %>: <%= value %></div>
               <% end %>
             </details>
