@@ -15,6 +15,12 @@ class ProfissionaisController < ApplicationController
     @error = error.message
   end
 
+  def test
+    client = Cnes::HttpClientFactory.new.create
+    @profissionais = client.profissionais(4314902237253)
+    render :index
+  end
+
   private
 
   def search
