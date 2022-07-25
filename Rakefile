@@ -59,7 +59,7 @@ end
 class EstabelecimentosImporter < ApiImporter
   def import
     Estados.new.all.each do |estado|
-      import_estado(estado)
+      import_estado(estado[:id])
     end
   end
 
@@ -72,8 +72,8 @@ class EstabelecimentosImporter < ApiImporter
   end
 
   def import_cidade(id)
-    estabelecimentos = api.estabelecimentos(id)
-    dump_json(estabelecimentos, "estabelecimentos-#{id}.json")
+    estabelecimentos = api.estabelecimentos(municipio: id)
+    dump_json(estabelecimentos, path: "estabelecimentos-#{id}.json")
   end
 end
 
