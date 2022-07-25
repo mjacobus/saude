@@ -24,7 +24,7 @@ class ProfissionaisController < ApplicationController
   end
 
   def profissionais
-    @profissionais = Cnes::Servicos::ProfissionaisFactory.new.create
+    Cnes::Servicos::ProfissionaisFactory.new.create
   end
 
   def search_params_present?
