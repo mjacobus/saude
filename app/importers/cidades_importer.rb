@@ -1,7 +1,7 @@
 class CidadesImporter < ApiImporter
   def import
-    Estados.new.all.each do |estado|
-      save_cidades(estado[:id])
+    Estados.new.each do |estado|
+      save_cidades(estado.id)
     end
   end
 

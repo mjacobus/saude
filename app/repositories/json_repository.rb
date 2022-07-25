@@ -1,4 +1,10 @@
 class JsonRepository
+  include Enumerable
+
+  def each(&block)
+    @data.each(&block)
+  end
+
   def all
     @data
   end

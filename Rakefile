@@ -9,7 +9,7 @@ Rails.application.load_tasks
 
 namespace :estados do
   task import: :environment do
-    Estados.new.import
+    EstadosImporter.new.import
   end
 end
 
