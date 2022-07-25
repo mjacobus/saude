@@ -1,0 +1,9 @@
+<h1>Cidades</h1>
+
+<ul>
+  <% @cidades.each do |id, cidade| %>
+    <li><%= link_to cidade, estabelecimentos_path(cidade_id: id) %></li>
+  <% end %>
+</ul>
+
+

@@ -1,0 +1,36 @@
+<h1>Estabelecimentos</h1>
+
+<p><%= @estabelecimentos.length %></p>
+
+<template>
+  {"id"=>"4314906495788", 
+  "cnes"=>"6495788", 
+  "noFantasia"=>"1 CRS SES", 
+  "noEmpresarial"=>"SECRETARIA ESTADUAL DE SAUDE", 
+  "uf"=>"RS", 
+  "noMunicipio"=>"PORTO ALEGRE", 
+  "gestao"=>"E", 
+  "natJuridica"=>"1", 
+  "atendeSus"=>"S"}
+</template>
+
+<table>
+  <thead>
+    <tr>
+      <td>Nome</td>
+      <td>Nome Fantasia</td>
+      <td>Município</td>
+      <td>Sus</td>
+    </tr>
+  </thead>
+  <tbody>
+    <% @estabelecimentos.each do |estabelecimento| %>
+      <tr>
+        <td><%= link_to estabelecimento['noEmpresarial'], profissionais_path(estabelecimento_id: estabelecimento['id']) %></td>
+        <td><%= estabelecimento['noFantasia'] %></td>
+        <td><%= estabelecimento['noMunicipio'] %></td>
+        <td><%= estabelecimento['atendeSus'] %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
