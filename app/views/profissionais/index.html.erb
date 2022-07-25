@@ -1,0 +1,94 @@
+<style>
+body {
+  padding: 40px;
+}
+p.summary {
+  padding: 50px;
+}
+table {
+  width: 100%;
+  padding: 0;
+  border-collapse: collapse;
+}
+tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+table tr {
+  padding: 0;
+  margin: 0;
+}
+
+table td, table th {
+  border: 1px solid gray;
+  padding: 4px;
+  margin: 0;
+}
+</style>
+<h1>Profissionais</h1>
+
+
+<div class="div">
+  <form action="">
+    <label>
+      Estado: 
+      <%= select_tag(:estado, options_for_select(estados, params[:estado])) %>
+    </label>
+    <label>
+      Cidade:
+      <%= text_field_tag(:cidade, params[:cidade].to_s.upcase) %>
+    </label>
+    <label>
+      Hospital:
+      <%= text_field_tag(:estabelecimento, params[:estabelecimento].to_s.upcase) %>
+    </label>
+    <label>
+      Cargo:
+      <%= text_field_tag(:cargo, params[:cargo].to_s.upcase) %>
+    </label>
+    <button type="submit">Buscar</button>
+  </form>
+</div>
+
+<% if @error %>
+  <p><%= @error %></p>
+<% end %>
+
+<% unless @profissionais.nil? %>
+  <p class="summary"><strong> <%= @profissionais.length %> profissionais encontrados.</strong></p>
+
+
+
+  <table>
+    <thead>
+      <tr>
+        <th>Nome</th>
+        <th>SUS</th>
+        <th>Cargo</th>
+        <th>CNS</th>
+        <th>Outros</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @profissionais.each do |profissional| %>
+        <tr>
+          <td><%= profissional['nome'] %></td>
+          <td><%= profissional['tpSusNaoSus'] == 'S' ? "Sim" : "Não" %></td>
+          <td><%= profissional['dsCbo'] %></td>
+          <td><%= profissional['cns'] %> <%= "(#{profissional['cnsMaster']})" if profissional["cnsMaster"].present? %></td>
+          <td>
+            <details>
+              <summary>Mais</summary>
+              <% profissional.slice( 'cbo', 'chOutros', 'chAmb', 'chHosp', 'vinculacao', 'vinculo', 'subVinculo', 'artigo2', 'artigo3', 'artigo5', 'dtEntrada').compact_blank.each do |key, value| %>
+                <div> <%= key %>: <%= value %></div>
+              <% end %>
+            </details>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>
+
+
+
