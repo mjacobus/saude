@@ -1,8 +1,14 @@
 class ProfissionaisImporter < ApiImporter
-  def import(estado_id:)
+  def import(estado_id: nil)
     estados = Estados.new
-    estado = estados.find(estado_id)
-    import_estado(estado)
+
+    if estado_id
+      estados = [estados.find(estado_id)]
+    end
+
+    estados.each do |estado|
+      import_estado(estado)
+    end
   end
 
   private
