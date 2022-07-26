@@ -1,6 +1,8 @@
+<%= render partial: 'header' %>
+
 <h1>Estabelecimentos</h1>
 
-<p><%= @estabelecimentos.length %></p>
+<p><%= @estabelecimentos.all.length %> estabelecimentos encontrados.</p>
 
 <template>
   {"id"=>"4314906495788", 
@@ -26,10 +28,10 @@
   <tbody>
     <% @estabelecimentos.each do |estabelecimento| %>
       <tr>
-        <td><%= link_to estabelecimento['noEmpresarial'], profissionais_path(estabelecimento_id: estabelecimento['id']) %></td>
-        <td><%= estabelecimento['noFantasia'] %></td>
-        <td><%= estabelecimento['noMunicipio'] %></td>
-        <td><%= estabelecimento['atendeSus'] %></td>
+        <td><%= link_to estabelecimento[:noEmpresarial], profissionais_path(request.query_parameters.merge(estabelecimento_id: estabelecimento.id)) %></td>
+        <td><%= estabelecimento[:noFantasia] %></td>
+        <td><%= estabelecimento[:noMunicipio] %></td>
+        <td><%= estabelecimento[:atendeSus] %></td>
       </tr>
     <% end %>
   </tbody>
