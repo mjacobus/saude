@@ -1,3 +1,5 @@
+require "fileutils"
+
 class ApiImporter
   attr_reader :api
   attr_reader :logger
