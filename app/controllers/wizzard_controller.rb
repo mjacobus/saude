@@ -1,4 +1,8 @@
 class WizzardController < ApplicationController
+  rescue_from JsonRepository::NotFoundError do |error|
+    render :not_found
+  end
+
   def estados
     @estados ||= Estados.new
   end
@@ -16,11 +20,9 @@ class WizzardController < ApplicationController
 
     if params[:cargo].present?
       @profissionais = @profissionais.select do |profissional|
-        profissional['dsCbo'].match(params[:cargo].upcase)
+        profissional.cargo.match(params[:cargo].upcase)
       end
     end
-
-    render 'profissionais/index'
   end
 
   private
@@ -34,7 +36,7 @@ class WizzardController < ApplicationController
   end
 
   def estabelecimento
-    estabelecimentos.find(params[:estabelecimento_id])
+    @estabelecimento ||= estabelecimentos.find(params[:estabelecimento_id])
   end
 
   def client

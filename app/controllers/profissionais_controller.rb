@@ -11,6 +11,7 @@ class ProfissionaisController < ApplicationController
         end
       end
     end
+    render 'wizzard/profissionais'
   rescue Cnes::InvalidArgumentError => error
     @error = error.message
   end
