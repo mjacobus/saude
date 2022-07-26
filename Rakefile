@@ -30,3 +30,10 @@ namespace :profissionais do
     ProfissionaisImporter.new.import(estado_id: 43)
   end
 end
+
+task import_all: [
+  'estados:import',
+  'cidades:import',
+  'estabelecimentos:import',
+  'profissionais:import'
+]
