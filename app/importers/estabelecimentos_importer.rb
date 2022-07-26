@@ -14,7 +14,7 @@ class EstabelecimentosImporter < ApiImporter
   end
 
   def import_cidade(id)
-    estabelecimentos = api.estabelecimentos(municipio: id)
+    estabelecimentos = with_retry { api.estabelecimentos(municipio: id) }
     dump_json(estabelecimentos, path: "estabelecimentos-#{id}.json")
   end
 end

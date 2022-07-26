@@ -26,7 +26,7 @@ class ProfissionaisImporter < ApiImporter
   end
 
   def import_estabelecimento(estabelecimento)
-    profissionais = api.profissionais(estabelecimento.id)
+    profissionais = with_retry { api.profissionais(estabelecimento.id) }
     dump_json(profissionais, path: "profissionais-#{estabelecimento.id}")
   end
 end

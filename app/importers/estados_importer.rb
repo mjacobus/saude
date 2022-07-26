@@ -1,5 +1,6 @@
 class EstadosImporter < ApiImporter
   def import
-    dump_json(api.estados, path: "estados.json")
+    estados = with_retry { api.estados }
+    dump_json(estados, path: "estados.json")
   end
 end

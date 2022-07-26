@@ -8,7 +8,7 @@ class CidadesImporter < ApiImporter
   private
 
   def save_cidades(id)
-    cidades = api.cidades(id)
+    cidades = with_retry { api.cidades(id) }
     dump_json(cidades, path: "cidades-#{id}.json")
   end
 end

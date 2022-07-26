@@ -1,5 +1,6 @@
 class ApiImporter
   attr_reader :api
+  attr_reader :logger
 
   def initialize(api: Cnes::HttpClientFactory.new.create, logger: Logger.new("log/api_data.log"))
     @api = api
@@ -7,6 +8,15 @@ class ApiImporter
   end
 
   private
+
+  def with_retry(&block)
+    block.call
+  rescue StandardError => e
+    logger.error(e)
+    log("Waiting 10 seconds")
+    sleep(10)
+    with_retry(&block)
+  end
 
   def dump_json(data, path:)
     path = Rails.root.join("data/api").join(path)
