@@ -1,0 +1,2 @@
+class Profissional < Entity
+end
