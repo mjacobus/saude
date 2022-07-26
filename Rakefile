@@ -27,7 +27,7 @@ end
 
 namespace :profissionais do
   task import: :environment do
-    ProfissionaisImporter.new.import
+    ProfissionaisImporter.new.import(estado_id: 43)
   end
 end
 
