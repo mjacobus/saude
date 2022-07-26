@@ -1,8 +1,8 @@
 <h1>Cidades</h1>
 
 <ul>
-  <% @cidades.each do |id, cidade| %>
-    <li><%= link_to cidade, estabelecimentos_path(cidade_id: id) %></li>
+  <% @cidades.each do |cidade| %>
+    <li><%= link_to cidade.nome, estabelecimentos_path(request.query_parameters.merge(cidade_id: cidade.id)) %></li>
   <% end %>
 </ul>
 

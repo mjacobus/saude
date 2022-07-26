@@ -1,36 +1,18 @@
 class WizzardController < ApplicationController
   def estados
-    @estados = Rails.cache.fetch('estados') do
-      client.estados
-    end
+    @estados ||= Estados.new
   end
 
   def cidades
-    @cidades = Rails.cache.fetch('cidades') do
-      client.cidades(params.fetch(:estado_id))
-    end
+    @cidades ||= estado.cidades
   end
 
   def estabelecimentos
-    payload = {
-      municipio: params[:cidade_id],
-      nome: params[:nome],
-    }.compact_blank
-
-    key = { action: params[:action] }.merge(payload)
-
-    @estabelecimentos = Rails.cache.fetch(key) do
-      client.estabelecimentos(payload)
-    end
+    @estabelecimentos ||= cidade.estabelecimentos
   end
 
   def profissionais
-    id = params[:estabelecimento_id]
-    key = ['profissionais', id].join(':')
-
-    @profissionais = Rails.cache.fetch(key) do
-      client.profissionais(id)
-    end
+    @profissionais = estabelecimento.profissionais
 
     if params[:cargo].present?
       @profissionais = @profissionais.select do |profissional|
@@ -42,6 +24,18 @@ class WizzardController < ApplicationController
   end
 
   private
+
+  def estado
+    @estado ||= estados.find(params[:estado_id])
+  end
+
+  def cidade
+    @cidade ||= cidades.find(params[:cidade_id])
+  end
+
+  def estabelecimento
+    estabelecimentos.find(params[:estabelecimento_id])
+  end
 
   def client
     @client ||= Cnes::HttpClientFactory.new.create

@@ -1,8 +1,8 @@
 <h1>Estados</h1>
 
 <ul>
-  <% @estados.each do |id, estado| %>
-    <li><%= link_to estado, cidades_path(estado_id: id) %></li>
+  <% @estados.each do |estado| %>
+    <li><%= link_to estado.nome, cidades_path(estado_id: estado.id) %></li>
   <% end %>
 </ul>
 
