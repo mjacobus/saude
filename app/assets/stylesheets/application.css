@@ -14,6 +14,10 @@
  *= require_self
  */
 
+.navigation {
+  margin-bottom: 50px;
+}
+
 body {
   padding: 40px;
 }
