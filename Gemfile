@@ -45,6 +45,9 @@ gem "bootsnap", require: false
 gem "cnes", "~> 1.0"
 gem 'rack-timeout'
 
+
+gem "nokogiri"
+
 # Use Sass to process CSS
 # gem "sassc-rails"
 
